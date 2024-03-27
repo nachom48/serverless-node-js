@@ -1,0 +1,61 @@
+service: gestion-empleados-api
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: ignaciomunoz-personal
+  stage: ${opt:stage}
+  region: ${opt:region}
+  apiGateway: 
+      request:
+        schemas:
+          empleado-input-model:
+            name: EmpleadoInputModel
+            schema : ${file(infraestructure/handlers/schemas/empleados-schema.json)}
+            description: "Validacion de los datos del empleado"
+  environment:
+    MYSQL_HOST: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_HOST} 
+    MYSQL_PORT: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_PORT} 
+    MYSQL_USER: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_USER} 
+    MYSQL_PW: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_PW} 
+    MYSQL_DB: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_DB} 
+plugins:   
+  - serverless-offline
+functions:
+  getEmpleados:
+    handler: infraestructure/handlers/empleados-handler.getEmpleados
+    events:
+      - http:
+          path: empleados       # https://dominio.fulanito/{stage}/empleados
+          method: get
+  createEmpleado:
+    handler: infraestructure/handlers/empleados-handler.createEmpleado
+    events:
+      - http:
+          path: empleados       # https://dominio.fulanito/{stage}/empleados
+          method: post
+          request:
+           schemas:
+            application/json: ${file(infraestructure/handlers/schemas/empleados-schema.json)}
+  updateEmpleado:
+    handler: infraestructure/handlers/empleados-handler.updateEmpleado
+    events:
+      - http:
+          path: empleados/{id}       # https://dominio.fulanito/{stage}/empleados/{id}
+          method: put
+  deleteEmpleado:
+    handler: infraestructure/handlers/empleados-handler.deleteEmpleado
+    events:
+      - http:
+          path: empleados/{id}       # https://dominio.fulanito/{stage}/empleados/{id}
+          method: delete
+  getDetailEmpleado:
+    handler: infraestructure/handlers/empleados-handler.getDetailEmpleado
+    events:
+      - http:
+          path: empleados/{id}       # https://dominio.fulanito/{stage}/empleados/{id}
+          method: get
+
+

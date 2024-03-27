@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title":"EmpleadoInputModel",
+    "description": "Validación de los datos del empelado",
+    "type":"object",
+    "properties": {
+        "primerNombre":{
+            "description": "Primer nombre del empleado",
+            "type":"string",
+            "minLength":3,
+            "maxLength":20
+        },
+        "segundoNombre":{
+            "description": "Segundo nombre del empleado",
+            "type":["string","null"],
+            "maxLength":20
+        },
+        "fechaNacimiento":{
+            "description": "Fecha de nacimiento del empleado (YYYY-MM-DD)",
+            "type":"string",
+            "pattern": "([1-2][0-9][0-9][0-9])-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$"
+        },
+        "tipoIdentificacion":{
+            "description": "Tipo de identificacion del empleado",
+            "enum":["cc","pas","otro"]
+        },
+        "numeroIdentificacion":{
+            "description": "Numero de identificacion",
+            "type":"string",
+            "minLength":1,
+            "maxLength":15       
+        },
+        "sueldo":{
+            "description": "Sueldo del empleado (100-9999999)",
+            "type":"number",
+            "minimum": 100,
+            "maximum": 99999999  
+        }
+    },
+    "required":["sueldo",
+    "numeroIdentificacion","primerNombre","segundoNombre",
+    "fechaNacimiento",
+    "tipoIdentificacion"]
+}
