@@ -21,6 +21,8 @@ provider:
     MYSQL_USER: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_USER} 
     MYSQL_PW: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_PW} 
     MYSQL_DB: ${file(./config/${opt:stage, 'dev'}.json):MYSQL_DB} 
+    SERVICE_HISTORICO: ${file(./config/${opt:stage, 'dev'}.json):SERVICE_HISTORICO} 
+    SERVICE_HISTORICO_KEY: ${file(./config/${opt:stage, 'dev'}.json):SERVICE_HISTORICO_KEY} 
 plugins:   
   - serverless-offline
 functions:
